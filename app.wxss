@@ -1,0 +1,10 @@
+/**app.wxss**/
+.container {
+  /* 移除 position: absolute 以解决 echarts 不跟随滚动的问题 */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+} 
