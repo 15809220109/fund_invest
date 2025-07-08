@@ -1,0 +1,179 @@
+<!--pages/login/login.wxml-->
+<view class="login-container">
+  <view class="header">
+    <!-- 用户头像，如果没有则显示默认头像 -->
+    <view wx:if="{{userInfo && userInfo.avatarUrl}}" class="user-avatar-container" bindtap="onAvatarTap">
+      <image 
+        class="user-avatar" 
+        src="{{userInfo.avatarUrl}}" 
+        mode="aspectFill"
+        bindload="onAvatarLoad"
+        binderror="onAvatarError"
+      ></image>
+    </view>
+    <view wx:else class="user-avatar-container" bindtap="onAvatarTap">
+      <view class="default-avatar">👤</view>
+    </view>
+    <text class="title">养基高手</text>
+    <text class="subtitle">以游戏的姿态学习投资</text>
+  </view>
+
+  <view class="content">
+    <view class="features">
+      <view class="feature-item">
+        <view class="feature-icon">💰</view>
+        <text class="feature-text">模拟投资</text>
+        <text class="feature-desc">轻松做交易，零成本玩转投资</text>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon">📊</view>
+        <text class="feature-text">真实数据</text>
+        <text class="feature-desc">历史数据回放，还原真实市场</text>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon">📱</view>
+        <text class="feature-text">云端同步</text>
+        <text class="feature-desc">随时随地，继续你的投资之旅</text>
+      </view>
+    </view>
+
+    <!-- 主要操作按钮 -->
+    <view class="main-actions">
+      <button 
+        class="start-btn" 
+        bindtap="startInvestment"
+        type="primary"
+        loading="{{isLogging}}"
+      >
+        {{isLogging ? '登录中...' : (hasStartedSession ? '继续投资' : '开始投资')}}
+      </button>
+    </view>
+
+    <!-- 已登录用户的额外操作 -->
+    <view wx:if="{{isLoggedIn}}" class="secondary-actions">
+      <view class="action-buttons">
+        <button 
+          class="secondary-btn restart-btn" 
+          bindtap="restartGame"
+          type="default"
+        >
+          重新开始
+        </button>
+
+        <button 
+          class="secondary-btn share-preview-btn" 
+          bindtap="showSharePreview"
+          type="default"
+        >
+          我的战绩
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text">数据仅供学习参考，不构成投资建议</text>
+  </view>
+
+  <!-- 登录提示弹窗 -->
+  <view class="login-modal-mask" wx:if="{{showLoginModal}}" bindtap="closeLoginModal">
+    <view class="login-modal" catchtap="">
+      <view class="modal-header">
+        <view class="modal-icon">🔐</view>
+        <view class="modal-title">登录提示</view>
+      </view>
+      
+      <view class="modal-content">
+        <text class="modal-text">登录后可保存您的投资数据到云端</text>
+        <text class="modal-sub-text">随时随地查看投资记录和排名</text>
+      </view>
+      
+      <view class="modal-actions">
+        <button class="modal-btn cancel-btn" bindtap="closeLoginModal">
+          取消
+        </button>
+        <button class="modal-btn confirm-btn" bindtap="oneClickLogin">
+          一键登录
+        </button>
+      </view>
+      
+      <view class="modal-close" bindtap="closeLoginModal">×</view>
+    </view>
+  </view>
+
+  <!-- 游戏结果分享卡片 -->
+  <view class="game-result-mask" wx:if="{{showGameResult}}">
+    <view class="game-result-card" catchtap="">
+      <!-- 卡片头部 -->
+      <view class="result-header">
+        <view class="result-title">🎉 投资挑战完成！</view>
+      </view>
+
+      <!-- 核心数据展示 -->
+      <view class="result-stats">
+        <view class="stat-item main-stat">
+          <view class="stat-label">总资产</view>
+          <view class="stat-value">¥{{gameEndData.finalTotalAmount}}</view>
+          <view class="stat-secondary">累计收益率: {{gameEndData.finalTotalProfitRate >= 0 ? '+' : ''}}{{gameEndData.finalTotalProfitRate}}%</view>
+        </view>
+        
+        <view class="stat-row">
+          <view class="stat-item">
+            <view class="stat-label">持仓收益</view>
+            <view class="stat-value">{{gameEndData.currentRoundProfit >= 0 ? '+' : ''}}{{gameEndData.currentRoundProfit}}</view>
+          </view>
+          <view class="stat-item">
+            <view class="stat-label">持仓收益率</view>
+            <view class="stat-value">{{gameEndData.currentRoundProfitRate >= 0 ? '+' : ''}}{{gameEndData.currentRoundProfitRate}}%</view>
+          </view>
+        </view>
+
+        <view class="stat-row">
+          <view class="stat-item">
+            <view class="stat-label">交易次数</view>
+            <view class="stat-value">{{gameEndData.tradingCount}}次</view>
+          </view>
+          <view class="stat-item">
+            <view class="stat-label">投资天数</view>
+            <view class="stat-value">{{gameEndData.investmentDays}}天</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 成就评级 -->
+      <view class="achievement-section">
+        <view class="achievement-container">
+          <view class="achievement-badge {{gameEndData.achievementLevel}}">
+            <view class="achievement-icon">{{gameEndData.achievementIcon}}</view>
+            <view class="achievement-text">{{gameEndData.achievementTitle}}</view>
+          </view>
+          <view class="achievement-desc">{{gameEndData.achievementDesc}}</view>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="result-actions">
+        <button class="action-btn share-btn" open-type="share">
+          <view class="btn-icon-wrapper">
+            <view class="btn-icon">📱</view>
+          </view>
+          <view class="btn-text">微信分享</view>
+          <view class="btn-arrow">→</view>
+        </button>
+        
+        <button class="action-btn ranking-btn" bindtap="goToRanking">
+          <view class="btn-icon-wrapper">
+            <view class="btn-icon">🏆</view>
+          </view>
+          <view class="btn-text">查看排名</view>
+          <view class="btn-arrow">→</view>
+        </button>
+      </view>
+
+      <!-- 关闭按钮 -->
+      <view class="close-btn" bindtap="closeGameResult">
+        <view class="close-icon">✕</view>
+      </view>
+    </view>
+  </view>
+</view> 

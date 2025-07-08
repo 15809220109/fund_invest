@@ -1,0 +1,161 @@
+<!-- pages/fund/fund.wxml -->
+<view class="container {{showDetails ? 'details-expanded' : ''}} {{pageTransitioning ? 'page-transitioning' : ''}}">
+  <!-- 基金信息 - 放在最上方 -->
+  <view class="portfolio-summary">
+    <!-- 第一行：现金和基金 -->
+    <view class="cash-fund-row">
+      <view class="cash-block">
+        <text class="label">现金</text>
+        <text class="value">¥{{displayData.cash}}</text>
+      </view>
+      <view class="fund-block">
+        <text class="label">基金</text>
+        <text class="value">¥{{displayData.fundValue}}</text>
+      </view>
+    </view>
+    
+    <!-- 第二行：收益信息 -->
+    <view class="profit-row">
+      <view class="profit-block">
+        <text class="label">当日盈亏</text>
+        <text class="value {{_rawData.dailyProfit >= 0 ? 'profit' : 'loss'}}">{{displayData.dailyProfit}}</text>
+      </view>
+      <view class="profit-block">
+        <text class="label">持仓收益</text>
+        <text class="value {{_rawData.totalProfit >= 0 ? 'profit' : 'loss'}}">{{displayData.totalProfit}}</text>
+      </view>
+      <view class="profit-block">
+        <text class="label">持仓收益率</text>
+        <text class="value {{_rawData.profitRate >= 0 ? 'profit' : 'loss'}}">{{displayData.profitRate}}</text>
+      </view>
+    </view>
+    
+    <!-- 第三行：可折叠详情 -->
+    <view class="details-header" bindtap="toggleDetails">
+      <text>详细信息</text>
+      <text>{{showDetails ? '收起' : '展开'}}</text>
+    </view>
+    
+    <view class="details-content" wx:if="{{showDetails}}">
+      <view class="details-row">
+        <text class="label">日涨幅</text>
+        <text class="value {{_rawData.dailyChange >= 0 ? 'profit' : 'loss'}}">{{displayData.dailyChange}}</text>
+      </view>
+      <view class="details-row">
+        <text class="label">最新净值</text>
+        <text class="value">{{displayData.currentNetValue}}</text>
+      </view>
+      <view class="details-row">
+        <text class="label">持仓成本</text>
+        <text class="value">{{displayData.avgCost}}</text>
+      </view>
+      <view class="details-row">
+        <text class="label">持仓份额</text>
+        <text class="value">{{displayData.fundUnits}}</text>
+      </view>
+      <view class="details-row">
+        <text class="label">累计收益率</text>
+        <text class="value {{_rawData.totalProfitRate >= 0 ? 'profit' : 'loss'}}">{{displayData.totalProfitRate}}</text>
+      </view>
+      <view class="details-row total-assets-row">
+        <text class="label">总资产</text>
+        <text class="value">¥{{displayData.totalAmount}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 交易日倒计时提示条 -->
+  <view class="countdown-bar {{!showDetails ? 'countdown-collapsed' : ''}} {{countdownUrgent ? 'urgent' : ''}}" 
+        style="background-color: {{countdownBackgroundColor}}; box-shadow: 0 4rpx 15rpx {{countdownShadowColor}}; --shadow-color: {{countdownShadowColor}};">
+    <!-- 展开详细信息时显示完整内容 -->
+          <view class="countdown-content" wx:if="{{showDetails}}">
+        <view class="countdown-icon" style="color: {{countdownTextColor}};">⏰</view>
+        <view class="countdown-text">
+          <text class="countdown-label" style="color: {{countdownTextColor}};">{{remainingDaysLabel || '剩余交易日'}}</text>
+          <text class="countdown-number" style="color: {{countdownTextColor}};">{{remainingDaysText || remainingDays}}</text>
+          <text class="countdown-unit" style="color: {{countdownTextColor}};">{{remainingDaysUnit}}</text>
+        </view>
+      </view>
+          <!-- 折叠状态时只显示进度条 -->
+      <view class="countdown-progress" style="background-color: {{countdownProgressBgColor}};">
+        <view class="countdown-progress-fill" style="width: {{progressPercent}}%; background: {{countdownProgressBarColor}};"></view>
+      </view>
+  </view>
+
+  <!-- 图表卡片（整合时间选择按钮） -->  
+  <view class="chart-card" wx:if="{{showChart}}">    
+    <view class="chart-container">
+      <ec-canvas id="mychart-dom-fund" canvas-id="mychart-fund" ec="{{ ec }}" style="z-index: {{echartsZIndex}};" type="2d"></ec-canvas>  
+    </view>
+    
+    <!-- 时间周期选择按钮 - 整合到图表卡片底部 -->
+    <view class="time-period-buttons">
+      <view class="period-btn {{timePeriod === '1m' ? 'active' : ''}}" bindtap="changePeriod" data-period="1m">近1月</view>
+      <view class="period-btn {{timePeriod === '3m' ? 'active' : ''}}" bindtap="changePeriod" data-period="3m">近3月</view>
+      <view class="period-btn {{timePeriod === '6m' ? 'active' : ''}}" bindtap="changePeriod" data-period="6m">近6月</view>
+      <view class="period-btn {{timePeriod === '1y' ? 'active' : ''}}" bindtap="changePeriod" data-period="1y">近1年</view>
+    </view>
+  </view>
+
+  <!-- 交易记录卡片 - 当展开详细信息时隐藏 -->
+  <view class="trading-history-card" wx:if="{{!showDetails}}">
+    <view class="trading-history-header">
+      <view class="history-title">
+        <text class="title-icon">📋</text>
+        <text class="title-text">交易记录</text>
+      </view>
+      <view class="history-summary">
+        <text class="summary-text">共{{reversedTradingHistory.length}}笔交易</text>
+      </view>
+    </view>
+    
+    <view class="trading-history-list">
+      <!-- 有交易记录时显示列表 -->
+      <view wx:if="{{reversedTradingHistory.length > 0}}">
+        <view class="trading-item" wx:for="{{reversedTradingHistory}}" wx:key="index" wx:for-index="idx">
+          <view class="trading-type {{item.type === 'buy' ? 'buy-type' : 'sell-type'}}">
+            <text class="type-icon">{{item.type === 'buy' ? '💰' : '💸'}}</text>
+            <text class="type-text">{{item.type === 'buy' ? '买入' : '卖出'}}</text>
+          </view>
+          <text class="detail-text detail-units">份额 {{item.displayUnits}}</text>
+          <view class="trading-net-value">
+            <text class="net-value-text">净值 {{item.displayNetValue}}</text>
+          </view>
+          <text class="detail-text detail-amount">金额 {{item.displayAmount}}</text>
+        </view>
+      </view>
+      
+      <!-- 空状态提示 -->
+      <view class="empty-state" wx:else>
+        <text class="empty-icon">💼</text>
+        <text class="empty-text">暂无交易记录</text>
+        <text class="empty-desc">开始您的第一笔投资吧！</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 游戏结束后的总结卡片 -->
+  <view class="game-end-summary" wx:if="{{gameEnded && !showChart}}">
+    <view class="summary-icon">📈</view>
+    <view class="summary-title">{{gameTexts.CHALLENGE_COMPLETED}}</view>
+    <view class="summary-desc">点击查看您的投资成果！</view>
+  </view>
+  
+  <!-- 悬浮操作按钮 -->
+  <view class="floating-actions">
+    <!-- 游戏完成状态：显示"查看投资成果"按钮 -->
+    <view wx:if="{{showCompletionButton || isLastDayCompleted}}" class="share-finish-container">
+      <button class="share-finish-btn" bindtap="showShareAndFinish">
+        <view class="share-btn-icon">🎉</view>
+        <view class="share-btn-text">查看投资成果</view>
+      </button>
+    </view>
+    
+    <!-- 正常游戏状态：显示三个操作按钮 -->
+    <view wx:else class="normal-actions">
+      <button class="floating-btn sell-btn {{sellPressed ? 'pressed' : ''}} {{gameEnded ? 'disabled' : ''}}" bindtouchstart="onBtnTouchStart" bindtouchend="onBtnTouchEnd" bindtap="navigateToSellPage" data-type="sell" disabled="{{gameEnded}}">卖出</button>
+      <button class="floating-btn next-btn {{nextPressed ? 'pressed' : ''}} {{gameEnded ? 'disabled' : ''}}" bindtouchstart="onBtnTouchStart" bindtouchend="onBtnTouchEnd" bindtap="nextDay" data-type="next" disabled="{{gameEnded}}">下一日</button>
+      <button class="floating-btn buy-btn {{buyPressed ? 'pressed' : ''}} {{gameEnded ? 'disabled' : ''}}" bindtouchstart="onBtnTouchStart" bindtouchend="onBtnTouchEnd" bindtap="navigateToBuyPage" data-type="buy" disabled="{{gameEnded}}">买入</button>
+    </view>
+  </view>
+</view> 

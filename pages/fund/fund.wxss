@@ -1,0 +1,1082 @@
+/* pages/fund/fund.wxss */
+
+/* Container */
+.container {
+  /* 确保不被全局样式覆盖，明确设置为static定位 */
+  position: static;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 让所有卡片靠上排布 */
+  align-items: stretch; /* 让卡片占满宽度 */
+  gap: 18rpx; /* 统一设置卡片间距 */
+  padding: 10rpx 20rpx 0 20rpx;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+  padding-bottom: 180rpx; /* 为悬浮按钮留出空间 */
+  /* **新增：页面过渡动画** */
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+/* **新增：页面过渡状态样式** */
+.container.page-transitioning {
+  opacity: 0.3;
+  transform: scale(0.98);
+  pointer-events: none;
+}
+
+/* 展开详细信息时的容器样式 - 均匀分布剩余卡片 */
+.container.details-expanded {
+  justify-content: space-between;
+  gap: 0; /* 移除固定间距，让space-between控制分布 */
+}
+
+/* 图表样式 - 精简与chart_test完全一致 */
+.chart-title {
+  text-align: center;
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+  margin-top: 20rpx;
+  font-weight: bold;
+}
+
+ec-canvas {
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* 确保低于对话框 */
+  /* 优化图表显示效果，防止模糊 */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  /* 确保canvas不被其他样式影响 */
+  display: block;
+  /* 强制硬件加速，提升渲染性能 */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* 时间周期选择按钮 */
+.time-period-buttons {
+  width: 100%;
+  display: flex !important;
+  justify-content: space-between;
+  padding: 15rpx 30rpx;
+  background-color: #f8f9fa;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 100;
+  border-top: 1px solid #e9ecef;
+}
+
+.period-btn {
+  width: 22%;
+  text-align: center;
+  padding: 12rpx 8rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  color: #666;
+  background-color: #e9ecef;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 101;
+  cursor: pointer;
+}
+
+.period-btn.active {
+  color: white;
+  background-color: #409eff;
+  font-weight: bold;
+  transform: scale(1.05);
+}
+
+/* Portfolio Summary Section */
+.portfolio-summary {
+  width: 100%;
+  background-color: white;
+  border-radius: 16rpx;
+  padding: 15rpx 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* 现金和基金部分 */
+.cash-fund-row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20rpx;
+  padding-bottom: 15rpx;
+  border-bottom: 1px solid #eee;
+}
+
+.cash-block, .fund-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
+}
+
+.cash-block .label, .fund-block .label {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.cash-block .value, .fund-block .value {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 收益信息行 */
+.profit-row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20rpx;
+  padding-bottom: 15rpx;
+  border-bottom: 1px solid #eee;
+}
+
+.profit-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+}
+
+.profit-block .label {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+.profit-block .value {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.profit {
+  color: #f56c6c;
+}
+
+.loss {
+  color: #67c23a;
+}
+
+/* 可折叠详情部分 */
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15rpx 0;
+  color: #666;
+  font-size: 26rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.details-content {
+  background-color: #f9f9f9;
+  padding: 15rpx 20rpx 20rpx 20rpx; /* 顶部、右侧、底部、左侧 */
+  border-radius: 8rpx;
+  margin-top: 15rpx;
+}
+
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15rpx;
+}
+
+.details-row:last-child {
+  margin-bottom: 0;
+}
+
+.total-assets-row {
+  margin-bottom: -12rpx !important;
+}
+
+.details-row .label {
+  color: #666;
+  font-size: 24rpx;
+}
+
+.details-row .value {
+  font-weight: bold;
+  font-size: 24rpx;
+  color: #333;
+}
+
+/* 交易日倒计时提示条 */
+.countdown-bar {
+  width: 100%;
+  /* 背景色由动态样式控制 */
+  border-radius: 16rpx;
+  padding: 15rpx 30rpx;
+  /* 阴影由动态样式控制 */
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  min-height: 40rpx; /* 确保折叠状态时有最小高度 */
+  transition: background-color 0.6s ease, box-shadow 0.6s ease; /* 平滑过渡效果 */
+}
+
+.countdown-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10rpx;
+}
+
+.countdown-icon {
+  font-size: 32rpx;
+  margin-right: 15rpx;
+  animation: pulse 2s infinite;
+  transition: color 0.6s ease; /* 平滑过渡效果 */
+}
+
+.countdown-text {
+  display: flex;
+  align-items: baseline;
+}
+
+.countdown-label {
+  /* 文字颜色由动态样式控制 */
+  font-size: 26rpx;
+  margin-right: 10rpx;
+  transition: color 0.6s ease; /* 平滑过渡效果 */
+}
+
+.countdown-number {
+  /* 文字颜色由动态样式控制 */
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-right: 5rpx;
+  animation: numberGlow 3s infinite;
+  transition: color 0.6s ease; /* 平滑过渡效果 */
+}
+
+.countdown-unit {
+  /* 文字颜色由动态样式控制 */
+  font-size: 24rpx;
+  transition: color 0.6s ease; /* 平滑过渡效果 */
+}
+
+.countdown-progress {
+  width: 100%;
+  height: 6rpx;
+  /* 背景色由动态样式控制 */
+  border-radius: 3rpx;
+  overflow: hidden;
+  transition: background-color 0.6s ease; /* 平滑过渡效果 */
+}
+
+/* 折叠状态下的倒计时样式 - 进度条居中 */
+.countdown-bar.countdown-collapsed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 30rpx; /* 增加上下内边距让进度条居中 */
+}
+
+.countdown-bar.countdown-collapsed .countdown-progress {
+  height: 8rpx; /* 折叠状态时进度条稍微粗一点 */
+}
+
+.countdown-progress-fill {
+  height: 100%;
+  /* 背景由动态样式控制 */
+  border-radius: 3rpx;
+  transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.6s ease;
+  animation: progressGlow 2s infinite alternate;
+}
+
+/* 图表卡片 - 整合设计 */
+.chart-card {
+  width: 100%;
+  background-color: white;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+  overflow: visible;
+  /* 移除 position: relative，使用默认的static定位 */
+  z-index: 5;
+}
+
+.chart-container {
+  width: 100%;
+  height: 450rpx;
+  padding: 5rpx 0;
+  /* 确保容器具有明确的尺寸 */
+  box-sizing: border-box;
+  /* 移除 position: relative，使用默认的static定位 */
+  z-index: 6;
+  /* 优化图表容器显示效果 */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+ec-canvas {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  /* 防止图表在某些设备上出现显示问题 */
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* 游戏结束总结卡片 */
+.game-end-summary {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16rpx;
+  padding: 40rpx 30rpx;
+  text-align: center;
+  color: white;
+  box-shadow: 0 4rpx 20rpx rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.game-end-summary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+}
+
+.summary-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  animation: pulse 2s infinite;
+}
+
+.summary-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 15rpx;
+  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.3);
+}
+
+.summary-desc {
+  font-size: 26rpx;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+/* 交易记录卡片样式 */
+.trading-history-card {
+  width: 100%;
+  background-color: white;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+  overflow: visible; /* 改为visible，允许内容溢出 */
+  box-sizing: border-box;
+}
+
+.trading-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid #dee2e6;
+  box-sizing: border-box;
+}
+
+.history-title {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.title-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.title-text {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+}
+
+.history-summary {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.summary-text {
+  font-size: 24rpx;
+  color: #666;
+  background-color: #e3f2fd;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  white-space: nowrap;
+}
+
+.trading-history-list {
+  height: 550rpx; 
+  padding: 0 60rpx 0 60rpx; 
+  box-sizing: border-box;
+  width: 100%;
+  overflow-y: auto; /* 启用垂直滚动 */
+  overflow-x: hidden; /* 隐藏水平滚动 */
+}
+
+/* 隐藏滚动条 - 更彻底的方法 */
+.trading-history-list::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+.trading-history-list::-webkit-scrollbar-track {
+  display: none !important;
+}
+
+.trading-history-list::-webkit-scrollbar-thumb {
+  display: none !important;
+}
+
+.trading-history-list {
+  -ms-overflow-style: none !important;  /* IE和Edge */
+  scrollbar-width: none !important;  /* Firefox */
+  overflow-scrolling: touch !important; /* iOS平滑滚动 */
+}
+
+/* 交易记录项 - 使用Grid布局实现完美对齐 */
+.trading-item {
+  display: grid;
+  /* 定义两列：第一列固定宽度，第二列占据剩余空间 */
+  grid-template-columns: 220rpx 1fr;
+  grid-template-rows: auto auto;
+  grid-row-gap: 15rpx;
+  grid-column-gap: 200rpx; /* 增大列间距，让布局更舒适 */
+  align-items: baseline; /* 基线对齐，确保文本底部对齐 */
+  padding: 20rpx 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.trading-item:last-child {
+  border-bottom: none;
+}
+
+.trading-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* 第1列，第1行 */
+.trading-type {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  font-weight: 500;
+  justify-self: start;
+  padding-left: 30rpx; /* 添加左内边距 */
+}
+
+.buy-type {
+  color: #f56c6c;
+}
+
+.sell-type {
+  color: #67c23a;
+}
+
+.type-icon {
+  font-size: 20rpx;
+  margin-right: 8rpx;
+}
+
+.type-text {
+  font-size: 24rpx;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 第1列，第2行 */
+.trading-net-value {
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 30rpx; /* 添加左内边距 */
+}
+
+.net-value-text {
+  font-size: 24rpx;
+  color: #333;
+  font-weight: 500;
+  display: block;
+}
+
+/* 详情文本 - 公共样式 */
+.detail-text {
+  font-size: 24rpx;
+  color: #333;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* 第2列，第1行 */
+.detail-units {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: start; /* 左对齐 */
+}
+
+/* 第2列，第2行 */
+.detail-amount {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: start; /* 左对齐 */
+}
+
+/* 空状态样式 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 30rpx;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.6;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+  font-weight: 500;
+}
+
+.empty-desc {
+  font-size: 24rpx;
+  color: #999;
+  line-height: 1.4;
+}
+
+/* 悬浮操作按钮 */
+.floating-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 30rpx 40rpx 40rpx;
+  background-color: #ebebeb;
+  z-index: 1000;
+}
+
+.floating-actions .normal-actions {
+  width: 600rpx;
+  max-width: 100%;
+}
+
+.floating-btn {
+  width: 180rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  color: white;
+  border: none;
+  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.floating-btn::after {
+  border: none;
+}
+
+.floating-btn.sell-btn {
+  background: linear-gradient(135deg, #67c23a, #5cb85c);
+}
+
+.floating-btn.next-btn {
+  background: linear-gradient(135deg, #909399, #6c757d);
+}
+
+.floating-btn.buy-btn {
+  background: linear-gradient(135deg, #f56c6c, #e74c3c);
+}
+
+/* 按钮禁用状态 */
+.floating-btn.disabled {
+  opacity: 0.4;
+  transform: scale(0.9);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}
+
+/* 按钮点击动画效果 */
+.floating-btn.pressed {
+  transform: scale(0.95);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+}
+
+.floating-btn:hover {
+  transform: translateY(-4rpx);
+  box-shadow: 0 8rpx 25rpx rgba(0, 0, 0, 0.2);
+}
+
+/* **新增：分享完成按钮样式** */
+.share-finish-container {
+  width: 600rpx;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.share-finish-btn {
+  width: 100%;
+  max-width: 600rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background: linear-gradient(135deg, #ff6b6b, #ffa726);
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 8rpx 30rpx rgba(255, 107, 107, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: pulse 2s infinite;
+}
+
+.share-finish-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 20rpx rgba(255, 107, 107, 0.6);
+}
+
+.share-btn-icon {
+  font-size: 32rpx;
+  margin-right: 15rpx;
+  animation: pulse 1.5s infinite;
+}
+
+.share-btn-text {
+  font-size: 28rpx;
+  font-weight: bold;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+}
+
+/* 正常操作按钮容器 */
+.normal-actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+/* 动画关键帧 */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes numberGlow {
+  0%, 100% {
+    text-shadow: 0 0 5rpx rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 20rpx rgba(255, 255, 255, 0.8);
+  }
+}
+
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100rpx);
+    opacity: 0;
+    scale: 0.9;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* 紧急状态动画 - 增强倒计时紧张感 */
+@keyframes urgentPulse {
+  0% { transform: scale(1); box-shadow: 0 4rpx 15rpx var(--shadow-color, rgba(255, 107, 107, 0.3)); }
+  50% { transform: scale(1.02); box-shadow: 0 6rpx 20rpx var(--shadow-color, rgba(255, 107, 107, 0.5)); }
+  100% { transform: scale(1); box-shadow: 0 4rpx 15rpx var(--shadow-color, rgba(255, 107, 107, 0.3)); }
+}
+
+/* 进度条发光动画 - 适配动态颜色 */
+@keyframes progressGlow {
+  0% { opacity: 1; filter: brightness(1); }
+  100% { opacity: 0.8; filter: brightness(1.2); }
+}
+
+/* 当倒计时进入紧急状态时应用脉冲动画 */
+.countdown-bar.urgent {
+  animation: urgentPulse 1.5s infinite;
+}
+
+/* 清除旧的弹窗样式，现在使用独立组件 */
+.dialog-mask, .dialog, .dialog-header, .dialog-content, .dialog-info, 
+.dialog-input, .dialog-footer, .dialog-btn, .cancel-btn, .confirm-btn {
+  /* 确保不影响新组件样式 */
+}
+
+/* 确保对话框不会被任何层覆盖 */
+page {
+  --dialog-z-index: 9999;
+}
+
+/* 游戏结果卡片样式 */
+.game-result-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10rpx);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* **优化：移除动画，瞬间显示** */
+}
+
+.game-result-card {
+  width: 650rpx;
+  max-height: 90vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 30rpx;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
+  /* **优化：移除动画，瞬间显示** */
+}
+
+.game-result-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+}
+
+/* 卡片头部 */
+.result-header {
+  text-align: center;
+  padding: 50rpx 40rpx 30rpx;
+  color: white;
+}
+
+.result-title {
+  font-size: 42rpx;
+  font-weight: bold;
+  margin-bottom: 15rpx;
+  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.3);
+}
+
+.result-subtitle {
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+/* 核心数据展示 */
+.result-stats {
+  background: rgba(255, 255, 255, 0.95);
+  margin: 0 30rpx 30rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.main-stat {
+  margin-bottom: 30rpx;
+  padding-bottom: 30rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.main-stat .stat-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.main-stat .stat-value {
+  font-size: 60rpx;
+  font-weight: bold;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25rpx;
+}
+
+.stat-row:last-child {
+  margin-bottom: 0;
+}
+
+.stat-row .stat-item {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+.stat-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.stat-value.positive {
+  color: #67c23a;
+}
+
+.stat-value.negative {
+  color: #f56c6c;
+}
+
+/* 成就评级 */
+.achievement-section {
+  text-align: center;
+  margin: 0 30rpx 30rpx;
+}
+
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 15rpx 30rpx;
+  border-radius: 50rpx;
+  margin-bottom: 15rpx;
+  font-weight: bold;
+  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.15);
+}
+
+.achievement-badge.master {
+  background: linear-gradient(135deg, #ffd700, #ffb347);
+  color: #8b4513;
+}
+
+.achievement-badge.expert {
+  background: linear-gradient(135deg, #c0c0c0, #a8a8a8);
+  color: #4a4a4a;
+}
+
+.achievement-badge.advanced {
+  background: linear-gradient(135deg, #cd7f32, #a0522d);
+  color: white;
+}
+
+.achievement-badge.beginner {
+  background: linear-gradient(135deg, #87ceeb, #4682b4);
+  color: white;
+}
+
+.achievement-icon {
+  font-size: 32rpx;
+  margin-right: 10rpx;
+}
+
+.achievement-text {
+  font-size: 28rpx;
+}
+
+.achievement-desc {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 24rpx;
+  line-height: 1.4;
+}
+
+/* 操作按钮 - 修复版本 */
+.result-actions {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 30rpx 40rpx;
+  gap: 12rpx;
+}
+
+.result-btn {
+  /* 重置button默认样式 */
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  
+  /* 设置固定尺寸和布局 */
+  flex: 1;
+  width: 0;
+  height: 120rpx;
+  min-height: 120rpx;
+  max-height: 120rpx;
+  
+  /* 视觉样式 */
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 2rpx solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 25rpx !important;
+  color: white !important;
+  
+  /* 布局方式 */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  /* 其他属性 */
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10rpx);
+  box-sizing: border-box;
+  position: relative;
+  top: 0;
+  vertical-align: top;
+}
+
+/* 清除微信小程序button的默认样式 */
+.result-btn::before {
+  display: none !important;
+}
+
+.result-btn::after {
+  display: none !important;
+  border: none !important;
+}
+
+.result-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.btn-icon {
+  /* 图标显示 */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  /* 图标容器尺寸 */
+  width: 32rpx;
+  height: 32rpx;
+  
+  /* 图标样式 */
+  font-size: 24rpx !important;
+  line-height: 1 !important;
+  color: white !important;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 8rpx;
+  
+  /* 防止缩放 */
+  flex-shrink: 0;
+  flex-grow: 0;
+  
+  /* 确保可见 */
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.btn-text {
+  /* 文字显示 */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  /* 文字容器尺寸 */
+  width: 100%;
+  height: 40rpx;
+  
+  /* 文字样式 */
+  font-size: 18rpx !important;
+  font-weight: bold !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  color: white !important;
+  
+  /* 间距和边界 */
+  margin: 0;
+  padding: 0 4rpx;
+  
+  /* 防止缩放 */
+  flex-shrink: 0;
+  flex-grow: 0;
+  
+  /* 文字换行 */
+  word-break: break-all;
+  overflow: hidden;
+  
+  /* 确保可见 */
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* 关闭按钮 */
+.close-btn {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  width: 60rpx;
+  height: 60rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 36rpx;
+  font-weight: bold;
+  backdrop-filter: blur(10rpx);
+  transition: all 0.3s ease;
+}
+
+.close-btn:active {
+  transform: scale(0.9);
+  background: rgba(255, 255, 255, 0.3);
+} 

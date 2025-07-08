@@ -1,0 +1,52 @@
+<!-- pages/fund/buyPage/buyPage.wxml -->
+<view class="buy-page">
+  <view class="page-header">
+    <text>买入基金</text>
+  </view>
+  
+  <view class="page-content">
+    <view class="info-section">
+      <view class="info-row">
+        <text class="label">当前净值:</text>
+        <text class="value">{{currentNetValue_display}}</text>
+      </view>
+      <view class="info-row">
+        <text class="label">可用现金:</text>
+        <text class="value">¥{{cash_display}}</text>
+      </view>
+    </view>
+    
+    <view class="input-section">
+      <text class="input-label">买入金额</text>
+      <input 
+        class="input-field" 
+        type="digit" 
+        placeholder="请输入买入金额" 
+        value="{{inputAmount}}"
+        bindinput="onInputAmountChange"
+        focus="true"
+      />
+    </view>
+    
+    <!-- 快捷仓位操作按钮 -->
+    <view class="quick-position-section">
+      <view class="position-title">快捷操作</view>
+      <view class="position-buttons">
+        <button class="position-btn" bindtap="onQuickBuy" data-ratio="0.2">1/5</button>
+        <button class="position-btn" bindtap="onQuickBuy" data-ratio="0.25">1/4</button>
+        <button class="position-btn" bindtap="onQuickBuy" data-ratio="0.33">1/3</button>
+        <button class="position-btn" bindtap="onQuickBuy" data-ratio="0.5">1/2</button>
+        <button class="position-btn full-btn" bindtap="onQuickBuy" data-ratio="1">全仓</button>
+      </view>
+    </view>
+    
+    <view class="tips-section">
+      <text class="tips">预计可买入份额: {{estimatedUnits}} 份</text>
+    </view>
+  </view>
+  
+  <view class="button-group">
+    <button class="cancel-btn" bindtap="onCancel">取消</button>
+    <button class="confirm-btn" bindtap="onConfirm">确定</button>
+  </view>
+</view> 

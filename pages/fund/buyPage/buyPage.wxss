@@ -1,0 +1,184 @@
+/* pages/fund/buyPage/buyPage.wxss */
+.buy-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 0 0 140rpx 0; /* 为悬浮按钮留出空间 */
+}
+
+.page-header {
+  background-color: #f56c6c;
+  color: white;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: bold;
+  padding: 30rpx 0;
+}
+
+.page-content {
+  flex: 1;
+  padding: 30rpx;
+}
+
+.info-section {
+  background-color: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  color: #666;
+  font-size: 28rpx;
+}
+
+.value {
+  color: #333;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.input-section {
+  background-color: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.input-label {
+  display: block;
+  color: #333;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.input-field {
+  border: 1px solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  font-size: 32rpx;
+}
+
+/* 快捷仓位操作样式 */
+.quick-position-section {
+  background-color: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.position-title {
+  color: #333;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+  font-weight: 500;
+}
+
+.position-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10rpx;
+}
+
+.position-btn {
+  flex: 1;
+  height: 60rpx;
+  line-height: 60rpx;
+  background-color: #f8f9fa;
+  color: #666;
+  border: 1px solid #e9ecef;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.position-btn::after {
+  border: none;
+}
+
+.position-btn:active {
+  transform: scale(0.95);
+}
+
+.position-btn:hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+/* 全仓按钮特殊样式 */
+.position-btn.full-btn {
+  background-color: #f56c6c;
+  color: white;
+  border-color: #f56c6c;
+  font-weight: 500;
+}
+
+.position-btn.full-btn:active {
+  background-color: #e65a5a;
+  border-color: #e65a5a;
+}
+
+.tips-section {
+  padding: 0 20rpx;
+}
+
+.tips {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.button-group {
+  position: fixed;
+  bottom: 40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 600rpx;
+  z-index: 1000;
+}
+
+.cancel-btn, .confirm-btn {
+  width: 45%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  border: none;
+  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.cancel-btn::after {
+  border: none;
+}
+
+.confirm-btn::after {
+  border: none;
+}
+
+.cancel-btn {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.confirm-btn {
+  background-color: #f56c6c;
+  color: white;
+} 

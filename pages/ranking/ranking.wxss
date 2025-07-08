@@ -1,0 +1,628 @@
+/* pages/ranking/ranking.wxss */
+
+.ranking-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding-bottom: 40rpx;
+}
+
+/* 页面头部 */
+.ranking-header {
+  position: relative;
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 40rpx;
+  overflow: hidden;
+}
+
+.header-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(10rpx);
+}
+
+.header-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  z-index: 2;
+}
+
+.back-btn {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10rpx);
+  transition: all 0.3s ease;
+}
+
+.back-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.back-icon {
+  font-size: 40rpx;
+  color: white;
+  font-weight: bold;
+}
+
+.header-spacer {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.header-title {
+  text-align: center;
+  color: white;
+}
+
+.title-main {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.3);
+}
+
+.title-sub {
+  display: block;
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+/* 我的排名卡片 */
+.my-ranking-card {
+  margin: 40rpx;
+  background: white;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* 移除顶部渐变装饰条，保持简洁设计 */
+
+.my-rank-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
+
+.my-rank-info {
+  flex: 1;
+}
+
+.my-rank-label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5rpx;
+}
+
+.my-rank-name {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+}
+
+.rank-badge {
+  min-width: 120rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.rank-badge.rank-top {
+  background: linear-gradient(135deg, #ffd700, #ffb347);
+}
+
+.rank-badge.rank-normal {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.rank-number {
+  font-size: 22rpx;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 1rpx 3rpx rgba(0, 0, 0, 0.3);
+}
+
+.rank-crown {
+  font-size: 24rpx;
+  margin-top: 2rpx;
+}
+
+.my-rank-tip {
+  text-align: center;
+  margin-top: 20rpx;
+  padding: 15rpx 20rpx;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 179, 71, 0.1));
+  border-radius: 15rpx;
+  border: 1rpx solid rgba(255, 215, 0, 0.3);
+}
+
+.tip-text {
+  font-size: 24rpx;
+  color: #f39c12;
+  font-weight: bold;
+}
+
+/* 未上榜卡片 */
+.not-ranked-card {
+  margin: 40rpx;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 2rpx dashed rgba(255, 255, 255, 0.5);
+}
+
+.not-ranked-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.not-ranked-icon {
+  font-size: 60rpx;
+  margin-bottom: 20rpx;
+}
+
+.not-ranked-title {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.not-ranked-desc {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.my-rank-stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.stat-value {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.stat-value.profit {
+  color: #f56c6c;
+}
+
+.stat-value.loss {
+  color: #67c23a;
+}
+
+/* 排行榜内容 */
+.ranking-content {
+  background: white;
+  margin: 0 40rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 前三名颁奖台 */
+.top-three {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 60rpx 40rpx 40rpx;
+}
+
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 300rpx;
+  position: relative;
+}
+
+.podium-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin: 0 20rpx;
+  z-index: 2;
+}
+
+.podium-item.first {
+  order: 2;
+  margin-top: -40rpx;
+}
+
+.podium-item.second {
+  order: 1;
+  margin-top: 20rpx;
+}
+
+.podium-item.third {
+  order: 3;
+  margin-top: 40rpx;
+}
+
+.crown {
+  font-size: 40rpx;
+  margin-bottom: 10rpx;
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10rpx); }
+}
+
+.podium-rank {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 25rpx;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-size: 24rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15rpx;
+}
+
+.podium-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  overflow: hidden;
+  margin-bottom: 15rpx;
+  border: 4rpx solid white;
+  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.1);
+}
+
+.podium-avatar image {
+  width: 100%;
+  height: 100%;
+}
+
+/* **新增：头像图片淡入动画** */
+.avatar-image {
+  opacity: 0;
+  animation: avatarFadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes avatarFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* **新增：头像加载状态** */
+.avatar-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 50%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.default-avatar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #ccc;
+  background: #f5f5f5;
+}
+
+.podium-name {
+  font-size: 24rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+  max-width: 120rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.podium-amount {
+  font-size: 22rpx;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.podium-base {
+  position: absolute;
+  bottom: 0;
+  width: 120rpx;
+  border-radius: 10rpx 10rpx 0 0;
+}
+
+.first-base {
+  height: 120rpx;
+  background: linear-gradient(135deg, #ffd700, #ffb347);
+}
+
+.second-base {
+  height: 100rpx;
+  background: linear-gradient(135deg, #c0c0c0, #a8a8a8);
+}
+
+.third-base {
+  height: 80rpx;
+  background: linear-gradient(135deg, #cd7f32, #b8860b);
+}
+
+/* 排行榜列表 */
+.ranking-list {
+  padding: 40rpx;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.list-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.list-count {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+  transition: all 0.3s ease;
+}
+
+.ranking-item:last-child {
+  border-bottom: none;
+}
+
+.ranking-item.my-item {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  border-radius: 15rpx;
+  padding: 25rpx 20rpx;
+  margin: 10rpx 0;
+  border: 2rpx solid rgba(102, 126, 234, 0.2);
+}
+
+.item-rank {
+  width: 80rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.rank-circle {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 25rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rank-circle.rank-top {
+  background: linear-gradient(135deg, #ffd700, #ffb347);
+}
+
+.rank-circle.rank-normal {
+  background: linear-gradient(135deg, #e0e0e0, #bdbdbd);
+}
+
+.rank-text {
+  font-size: 24rpx;
+  font-weight: bold;
+  color: white;
+}
+
+.item-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  overflow: hidden;
+  margin: 0 20rpx;
+  position: relative;
+  border: 3rpx solid white;
+  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.1);
+}
+
+.item-avatar image {
+  width: 100%;
+  height: 100%;
+}
+
+.item-avatar .default-avatar {
+  font-size: 32rpx;
+}
+
+/* **新增：为列表头像添加加载状态和淡入动画** */
+.item-avatar {
+  position: relative; /* 确保加载状态正确定位 */
+}
+
+.item-avatar .avatar-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 50%;
+}
+
+/* 移除头像上的特殊标记，让头像完整显示 */
+.me-badge {
+  display: none;
+}
+
+.custom-profile-badge {
+  display: none;
+}
+
+.item-info {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.item-name {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.item-stats {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.item-amount {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2rpx;
+}
+
+.item-profit {
+  display: block;
+  font-size: 22rpx;
+  font-weight: bold;
+}
+
+.item-profit.profit {
+  color: #f56c6c;
+}
+
+.item-profit.loss {
+  color: #67c23a;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80rpx 40rpx;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.empty-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 加载状态 */
+.loading-state {
+  text-align: center;
+  padding: 60rpx 40rpx;
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 底部说明 */
+.ranking-footer {
+  text-align: center;
+  padding: 40rpx;
+}
+
+.footer-note {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.8);
+} 

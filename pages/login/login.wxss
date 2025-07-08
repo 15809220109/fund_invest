@@ -1,0 +1,778 @@
+/* pages/login/login.wxss */
+.login-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 40rpx;
+  box-sizing: border-box;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60rpx;
+  margin-top: 80rpx;
+}
+
+.user-avatar-container {
+  width: 120rpx;
+  height: 120rpx;
+  margin: 0 auto 30rpx auto; /* 水平居中 */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-avatar-container:active {
+  transform: scale(0.95);
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 60rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+
+
+.user-avatar-container:hover .user-avatar {
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10rpx 25rpx rgba(0, 0, 0, 0.3);
+}
+
+.default-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 60rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60rpx;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+
+.user-avatar-container:hover .default-avatar {
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10rpx 25rpx rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.features {
+  margin-bottom: 60rpx;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  backdrop-filter: blur(10px);
+}
+
+.feature-icon {
+  font-size: 40rpx;
+  margin-right: 30rpx;
+  width: 60rpx;
+  text-align: center;
+}
+
+.feature-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: white;
+  margin-right: 20rpx;
+  min-width: 120rpx;
+}
+
+.feature-desc {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.8);
+  flex: 1;
+}
+
+/* 主要操作按钮 */
+.main-actions {
+  margin-bottom: 10rpx;
+}
+
+.start-btn {
+  width: 100%;
+  height: 96rpx;
+  line-height: 96rpx;
+  margin-top: 40rpx;  /* 新增：增加上边距 */
+  background: linear-gradient(45deg, #ff6b6b, #ffa726);
+  border: none;
+  border-radius: 48rpx;
+  color: white;
+  font-size: 34rpx;
+  font-weight: bold;
+  box-shadow: 0 12rpx 30rpx rgba(255, 107, 107, 0.4);
+  transition: all 0.3s ease;
+}
+
+.start-btn::after {
+  border: none;
+}
+
+.start-btn:active {
+  transform: translateY(4rpx) scale(0.98);
+  box-shadow: 0 6rpx 15rpx rgba(255, 107, 107, 0.3);
+}
+
+/* 已登录用户的额外操作 */
+.secondary-actions {
+  margin-top: 40rpx;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 30rpx;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.secondary-btn {
+  flex: 1;
+  min-width: 200rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  border-radius: 38rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.secondary-btn::after {
+  border: none;
+}
+
+/* 重新开始按钮 */
+.restart-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2rpx solid rgba(255, 255, 255, 0.4);
+  color: white;
+}
+
+.restart-btn:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* 查看排名按钮 */
+.ranking-btn {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.8), rgba(255, 179, 71, 0.8));
+  border: 2rpx solid rgba(255, 215, 0, 0.6);
+  color: #654321;
+  font-weight: bold;
+  box-shadow: 0 4rpx 15rpx rgba(255, 215, 0, 0.2);
+}
+
+.ranking-btn:active {
+  transform: scale(0.95);
+  background: linear-gradient(135deg, rgba(255, 237, 74, 0.9), rgba(243, 156, 18, 0.9));
+  box-shadow: 0 2rpx 8rpx rgba(255, 215, 0, 0.3);
+}
+
+/* 预览分享按钮 */
+.share-preview-btn {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.8), rgba(139, 195, 74, 0.8));
+  border: 2rpx solid rgba(76, 175, 80, 0.6);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4rpx 15rpx rgba(76, 175, 80, 0.2);
+}
+
+.share-preview-btn:active {
+  transform: scale(0.95);
+  background: linear-gradient(135deg, rgba(102, 187, 106, 0.9), rgba(156, 204, 101, 0.9));
+  box-shadow: 0 2rpx 8rpx rgba(76, 175, 80, 0.3);
+}
+
+/* 登录提示弹窗 */
+.login-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10rpx);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.login-modal {
+  width: 580rpx;
+  background: white;
+  border-radius: 24rpx;
+  overflow: hidden;
+  position: relative;
+  animation: modalSlideIn 0.3s ease;
+}
+
+.modal-header {
+  text-align: center;
+  padding: 50rpx 40rpx 30rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.modal-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: white;
+}
+
+.modal-content {
+  padding: 40rpx;
+  text-align: center;
+}
+
+.modal-text {
+  display: block;
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+  line-height: 1.5;
+}
+
+.modal-sub-text {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.4;
+}
+
+.modal-actions {
+  display: flex;
+  padding: 0 40rpx 40rpx;
+  gap: 20rpx;
+}
+
+.modal-btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.modal-btn::after {
+  border: none;
+}
+
+.cancel-btn {
+  background: rgba(0, 0, 0, 0.05);
+  color: #666;
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.cancel-btn:active {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.confirm-btn {
+  background: linear-gradient(45deg, #ff6b6b, #ffa726);
+  color: white;
+  box-shadow: 0 8rpx 20rpx rgba(255, 107, 107, 0.3);
+}
+
+.confirm-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 4rpx 10rpx rgba(255, 107, 107, 0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 20rpx;
+  right: 30rpx;
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  font-size: 40rpx;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+.modal-close:active {
+  color: white;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-100rpx) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.footer {
+  text-align: center;
+  margin-top: 40rpx;
+}
+
+.footer-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 动画 */
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40%, 43% {
+    transform: translateY(-10rpx);
+  }
+  70% {
+    transform: translateY(-5rpx);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 游戏结果卡片样式 */
+.game-result-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10rpx);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-result-card {
+  width: 650rpx;
+  max-height: 90vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 30rpx;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
+}
+
+.game-result-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+}
+
+/* 卡片头部 */
+.result-header {
+  text-align: center;
+  padding: 50rpx 40rpx 30rpx;
+  color: white;
+}
+
+.result-title {
+  font-size: 42rpx;
+  font-weight: bold;
+  margin-bottom: 15rpx;
+  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.3);
+}
+
+.result-subtitle {
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+/* 核心数据展示 */
+.result-stats {
+  background: rgba(255, 255, 255, 0.95);
+  margin: 0 30rpx 30rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.main-stat {
+  margin-bottom: 30rpx;
+  padding-bottom: 30rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.main-stat .stat-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.main-stat .stat-value {
+  font-size: 60rpx;
+  font-weight: bold;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.main-stat .stat-secondary {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25rpx;
+}
+
+.stat-row:last-child {
+  margin-bottom: 0;
+}
+
+.stat-row .stat-item {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+.stat-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.stat-value.positive {
+  color: #67c23a;
+}
+
+.stat-value.negative {
+  color: #f56c6c;
+}
+
+/* 成就评级 */
+.achievement-section {
+  text-align: center;
+  margin: 0 30rpx 30rpx;
+  position: relative;
+  z-index: 2;
+}
+
+.achievement-container {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 25rpx;
+  padding: 30rpx 25rpx;
+  backdrop-filter: blur(20rpx);
+  border: 2rpx solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.1);
+}
+
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 18rpx 35rpx;
+  border-radius: 60rpx;
+  margin-bottom: 15rpx;
+  font-weight: bold;
+  box-shadow: 
+    0 8rpx 25rpx rgba(0, 0, 0, 0.2),
+    0 0 0 2rpx rgba(255, 255, 255, 0.1),
+    inset 0 2rpx 0 rgba(255, 255, 255, 0.3);
+  animation: achievementGlow 3s ease-in-out infinite;
+}
+
+.achievement-badge.master {
+  background: linear-gradient(135deg, #ffd700, #ffb347, #ffd700);
+  color: #8b4513;
+  text-shadow: 0 1rpx 2rpx rgba(139, 69, 19, 0.3);
+}
+
+.achievement-badge.expert {
+  background: linear-gradient(135deg, #e8e8e8, #c0c0c0, #e8e8e8);
+  color: #4a4a4a;
+  text-shadow: 0 1rpx 2rpx rgba(74, 74, 74, 0.3);
+}
+
+.achievement-badge.advanced {
+  background: linear-gradient(135deg, #cd7f32, #a0522d, #cd7f32);
+  color: white;
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.4);
+}
+
+.achievement-badge.beginner {
+  background: linear-gradient(135deg, #87ceeb, #4682b4, #87ceeb);
+  color: white;
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.3);
+}
+
+.achievement-icon {
+  font-size: 36rpx;
+  margin-right: 12rpx;
+  animation: spin 4s linear infinite;
+}
+
+.achievement-text {
+  font-size: 30rpx;
+  letter-spacing: 1rpx;
+}
+
+.achievement-desc {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 26rpx;
+  line-height: 1.4;
+  font-weight: 500;
+  margin-top: 8rpx;
+}
+
+/* 操作按钮 */
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 40rpx 50rpx;
+  gap: 20rpx;
+  position: relative;
+  z-index: 2;
+}
+
+.action-btn {
+  /* 重置button默认样式 */
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  
+  /* 设置尺寸和布局 */
+  width: 100%;
+  height: 110rpx;
+  
+  /* 视觉样式 */
+  background: rgba(255, 255, 255, 0.25) !important;
+  border: 2rpx solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 30rpx !important;
+  color: white !important;
+  
+  /* 布局方式 */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 30rpx !important;
+  
+  /* 其他属性 */
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(20rpx);
+  box-sizing: border-box;
+  position: relative;
+  box-shadow: 
+    0 8rpx 25rpx rgba(0, 0, 0, 0.15),
+    inset 0 2rpx 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 清除微信小程序button的默认样式 */
+.action-btn::before {
+  display: none !important;
+}
+
+.action-btn::after {
+  display: none !important;
+  border: none !important;
+}
+
+.action-btn:active {
+  transform: translateY(2rpx) scale(0.98);
+  background: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 
+    0 4rpx 15rpx rgba(0, 0, 0, 0.2),
+    inset 0 2rpx 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-icon-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 60rpx;
+  height: 60rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  backdrop-filter: blur(10rpx);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.btn-icon {
+  font-size: 36rpx !important;
+  color: white !important;
+  animation: iconBounce 2s ease-in-out infinite;
+}
+
+.btn-text {
+  flex: 1;
+  text-align: center;
+  font-size: 32rpx !important;
+  font-weight: bold !important;
+  color: white !important;
+  letter-spacing: 1rpx;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+}
+
+.btn-arrow {
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.action-btn:active .btn-arrow {
+  transform: translateX(8rpx);
+}
+
+/* 关闭按钮 */
+.close-btn {
+  position: absolute;
+  top: 25rpx;
+  right: 30rpx;
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(20rpx);
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.close-btn:active {
+  transform: scale(0.9);
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 3rpx 10rpx rgba(0, 0, 0, 0.2);
+}
+
+.close-icon {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+}
+
+/* 动画效果 */
+@keyframes achievementGlow {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes iconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6rpx);
+  }
+}
+
+ 

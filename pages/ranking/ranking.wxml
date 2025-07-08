@@ -1,0 +1,156 @@
+<!--pages/ranking/ranking.wxml-->
+<view class="ranking-container">
+  <!-- 页面头部 -->
+  <view class="ranking-header">
+    <view class="header-background"></view>
+    <view class="header-content">
+      <view class="back-btn" bindtap="goBack">
+        <text class="back-icon">‹</text>
+      </view>
+      <view class="header-title">
+        <text class="title-main">投资排行榜</text>
+        <text class="title-sub">总资产排名</text>
+      </view>
+      <view class="header-spacer"></view>
+    </view>
+  </view>
+
+  <!-- 我的排名卡片 -->
+  <view class="my-ranking-card" wx:if="{{myRanking}}">
+    <view class="my-rank-header">
+      <view class="my-rank-info">
+        <text class="my-rank-label">我的排名</text>
+        <text class="my-rank-name" wx:if="{{myRanking.nickname}}">{{myRanking.nickname}}</text>
+      </view>
+      <view class="rank-badge rank-{{myRanking.rank <= 3 ? 'top' : 'normal'}}">
+        <text class="rank-number">第{{myRanking.rank}}名</text>
+        <view class="rank-crown" wx:if="{{myRanking.rank <= 3}}">{{myRanking.rank == 1 ? '👑' : myRanking.rank == 2 ? '🥈' : '🥉'}}</view>
+      </view>
+    </view>
+    <view class="my-rank-stats">
+      <view class="stat-item">
+        <text class="stat-label">总资产</text>
+        <text class="stat-value">¥{{myRanking.totalAssets}}</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-label">收益率</text>
+        <text class="stat-value {{myRanking.profitRate >= 0 ? 'profit' : 'loss'}}">{{myRanking.profitRate >= 0 ? '+' : ''}}{{myRanking.profitRate}}%</text>
+      </view>
+    </view>
+    <view class="my-rank-tip" wx:if="{{myRanking.rank <= 10}}">
+      <text class="tip-text">🎉 恭喜进入前十名！</text>
+    </view>
+  </view>
+
+  <!-- 未上榜提示 -->
+  <view class="not-ranked-card" wx:if="{{!myRanking && !loading}}">
+    <view class="not-ranked-content">
+      <view class="not-ranked-icon">📈</view>
+      <text class="not-ranked-title">尚未上榜</text>
+      <text class="not-ranked-desc">完成投资挑战后即可参与排名</text>
+    </view>
+  </view>
+
+  <!-- 排行榜内容 -->
+  <view class="ranking-content">
+    <!-- 前三名特殊展示 -->
+    <view class="top-three" wx:if="{{rankingList.length > 0}}">
+      <view class="podium">
+        <!-- 第二名 -->
+        <view class="podium-item second" wx:if="{{rankingList.length > 1}}">
+          <view class="podium-rank">2</view>
+          <view class="podium-avatar">
+            <image src="{{rankingList[1].avatar}}" mode="aspectFill" wx:if="{{rankingList[1].avatar}}" binderror="onAvatarError" bindload="onAvatarLoad" data-openid="{{rankingList[1].openid}}" class="avatar-image"></image>
+            <view class="default-avatar" wx:else>👤</view>
+            <view class="avatar-loading" wx:if="{{!rankingList[1].avatar && !loading}}"></view>
+          </view>
+          <text class="podium-name">{{rankingList[1].nickname}}</text>
+          <text class="podium-amount">¥{{rankingList[1].totalAssets}}</text>
+          <view class="podium-base second-base"></view>
+        </view>
+
+        <!-- 第一名 -->
+        <view class="podium-item first" wx:if="{{rankingList.length > 0}}">
+          <view class="crown">👑</view>
+          <view class="podium-rank">1</view>
+          <view class="podium-avatar">
+            <image src="{{rankingList[0].avatar}}" mode="aspectFill" wx:if="{{rankingList[0].avatar}}" binderror="onAvatarError" bindload="onAvatarLoad" data-openid="{{rankingList[0].openid}}" class="avatar-image"></image>
+            <view class="default-avatar" wx:else>👤</view>
+            <view class="avatar-loading" wx:if="{{!rankingList[0].avatar && !loading}}"></view>
+          </view>
+          <text class="podium-name">{{rankingList[0].nickname}}</text>
+          <text class="podium-amount">¥{{rankingList[0].totalAssets}}</text>
+          <view class="podium-base first-base"></view>
+        </view>
+
+        <!-- 第三名 -->
+        <view class="podium-item third" wx:if="{{rankingList.length > 2}}">
+          <view class="podium-rank">3</view>
+          <view class="podium-avatar">
+            <image src="{{rankingList[2].avatar}}" mode="aspectFill" wx:if="{{rankingList[2].avatar}}" binderror="onAvatarError" bindload="onAvatarLoad" data-openid="{{rankingList[2].openid}}" class="avatar-image"></image>
+            <view class="default-avatar" wx:else>👤</view>
+            <view class="avatar-loading" wx:if="{{!rankingList[2].avatar && !loading}}"></view>
+          </view>
+          <text class="podium-name">{{rankingList[2].nickname}}</text>
+          <text class="podium-amount">¥{{rankingList[2].totalAssets}}</text>
+          <view class="podium-base third-base"></view>
+        </view>
+             </view>
+    </view>
+
+    <!-- 排行榜列表 -->
+    <view class="ranking-list">
+      <view class="list-header">
+        <text class="list-title">完整排名</text>
+        <text class="list-count">共{{rankingList.length}}位投资者</text>
+      </view>
+      
+      <view class="ranking-item {{item.isMe ? 'my-item' : ''}}" 
+            wx:for="{{rankingList}}" 
+            wx:key="id"
+            wx:for-item="item"
+            wx:for-index="index">
+        <view class="item-rank">
+          <view class="rank-circle rank-{{index < 3 ? 'top' : 'normal'}}">
+            <text class="rank-text">{{index + 1}}</text>
+          </view>
+        </view>
+        
+        <view class="item-avatar">
+          <image src="{{item.avatar}}" mode="aspectFill" wx:if="{{item.avatar}}" binderror="onAvatarError" bindload="onAvatarLoad" data-openid="{{item.openid}}" class="avatar-image"></image>
+          <view class="default-avatar" wx:else>👤</view>
+          <view class="avatar-loading" wx:if="{{!item.avatar && !loading}}"></view>
+          <view class="me-badge" wx:if="{{item.isCurrentUser}}">我</view>
+          <view class="custom-profile-badge" wx:if="{{item.hasCustomProfile}}">🌟</view>
+        </view>
+        
+        <view class="item-info">
+          <text class="item-name">{{item.nickname}}</text>
+        </view>
+        
+        <view class="item-stats">
+          <text class="item-amount">¥{{item.totalAssets}}</text>
+          <text class="item-profit {{item.profitRate >= 0 ? 'profit' : 'loss'}}">{{item.profitRate >= 0 ? '+' : ''}}{{item.profitRate}}%</text>
+        </view>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-state" wx:if="{{!loading && rankingList.length === 0}}">
+        <view class="empty-icon">📊</view>
+        <text class="empty-text">暂无排名数据</text>
+        <text class="empty-desc">完成投资挑战后即可上榜</text>
+      </view>
+
+      <!-- 加载状态 -->
+      <view class="loading-state" wx:if="{{loading}}">
+        <view class="loading-spinner"></view>
+        <text class="loading-text">{{loadingText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部说明 -->
+  <view class="ranking-footer">
+    <text class="footer-note">* 排名基于总资产计算，每小时更新一次</text>
+  </view>
+</view> 

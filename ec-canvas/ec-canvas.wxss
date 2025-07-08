@@ -1,0 +1,13 @@
+.ec-canvas {
+  width: 100%;
+  height: 100%;
+  /* 优化图表显示效果，防止模糊 */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  /* 确保canvas不被其他样式影响 */
+  display: block;
+  /* 强制硬件加速，提升渲染性能 */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
