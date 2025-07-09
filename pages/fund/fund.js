@@ -227,7 +227,7 @@ Page({
 
       // 状态相关更新
       currentDate: this.data.fundData[state.currentIndex]?.date || this.data.currentDate,
-      remainingDays: Math.max(0, this.data.totalTradingDays - this.data.usedGameDays)
+      remainingDays: Math.max(0, GAME_CONFIG.TOTAL_TRADING_DAYS - this.data.usedGameDays)
     };
 
     // 单次setData调用
@@ -322,8 +322,8 @@ Page({
     },
 
     // 倒计时相关数据
-    totalTradingDays: GAME_CONFIG.TOTAL_TRADING_DAYS,    // 游戏总交易日数
-    remainingDays: GAME_CONFIG.TOTAL_TRADING_DAYS,       // 剩余交易日数
+    // totalTradingDays: GAME_CONFIG.TOTAL_TRADING_DAYS,    // 游戏总交易日数
+    // remainingDays: GAME_CONFIG.TOTAL_TRADING_DAYS,       // 剩余交易日数
     remainingDaysText: GAME_CONFIG.TOTAL_TRADING_DAYS.toString(), // 显示文本
     remainingDaysUnit: '天',                             // 显示单位
     remainingDaysLabel: '剩余交易日',                     // 显示标签
@@ -362,9 +362,14 @@ Page({
    * 页面加载时执行
    */
   onLoad: function (options) {
+    const app = getApp();
     // 设置初始状态
     this.setData({
-      gameTexts: GAME_CONFIG.getText()
+      gameTexts: GAME_CONFIG.getText(),
+      // 从全局数据获取剩余天数
+      remainingDays: app.globalData.investmentCountdown.remainingDays,
+      // 从配置获取总交易天数
+      totalTradingDays: GAME_CONFIG.TOTAL_TRADING_DAYS
     });
 
     // 初始化数据

@@ -1,4 +1,6 @@
 //app.js
+const GAME_CONFIG = require('./config/gameConfig.js');
+
 App({
   onLaunch: function () {
     // 初始化云开发
@@ -205,7 +207,7 @@ App({
     unionid: null,
     userData: null,
     investmentCountdown: {
-      remainingDays: 10,        // 剩余投资天数
+      remainingDays: GAME_CONFIG.TOTAL_TRADING_DAYS,        // 剩余投资天数
       isGameCompleted: false,   // 投资挑战是否完成
       lastUpdateTime: null      // 最后更新时间
     }
