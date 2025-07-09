@@ -41,10 +41,15 @@
     "showES6CompileOption": false,
     "disableUseStrict": false,
     "useCompilerPlugins": false,
-    "minifyWXML": true
+    "minifyWXML": true,
+    "compileWorklet": false,
+    "localPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "3.7.9",
+  "libVersion": "3.8.9",
   "appid": "wxb6bcd88c01e583db",
   "projectname": "养基高手",
   "simulatorType": "wechat",
