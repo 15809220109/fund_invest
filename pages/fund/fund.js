@@ -2300,7 +2300,7 @@ Page({
 
     try {
       // 初始化CSV日志
-      this.initCSVLog();
+      //this.initCSVLog();
 
       // 检查用户登录状态
       if (!this.checkUserLogin()) {
