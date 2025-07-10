@@ -371,66 +371,27 @@ Page({
 
   /**
    * 微信分享 - 游戏结束卡片中的分享功能
+   * 根据不同的数据来源生成分享标题和内容
+   * 优先级：游戏结束数据 > 实时计算数据 > 默认标题
    */
   onShareAppMessage: function() {
+    // 获取游戏结束数据（从页面参数传入）
     const { gameEndData } = this.data
     
+    // 第一优先级：如果有游戏结束数据，直接使用
     if (gameEndData && gameEndData.finalTotalProfitRate !== undefined) {
-      const profitRate = parseFloat(gameEndData.finalTotalProfitRate) || 0
-      const totalAmount = parseFloat(gameEndData.finalTotalAmount) || 10000
-      const tradingCount = parseInt(gameEndData.tradingCount) || 0
+      // 解析游戏结束数据中的关键指标
+      const profitRate = parseFloat(gameEndData.finalTotalProfitRate) || 0  // 总收益率
+      const totalAmount = parseFloat(gameEndData.finalTotalAmount) || 10000 // 总资产
+      const tradingCount = parseInt(gameEndData.tradingCount) || 0         // 交易次数
       
+      // 根据收益率和交易次数生成个性化分享标题
       const title = this.generateShareTitle(profitRate, totalAmount, tradingCount)
-      
       return {
         title: title,
-        path: `/pages/login/login`,
-        imageUrl: '',
+        path: `/pages/login/login`,  // 分享后跳转到登录页面
+        imageUrl: '',  // 使用默认分享图片
       }
-    }
-    
-    const app = getApp()
-    if (app.globalData.userData && app.globalData.userData.fundData) {
-      try {
-        const userData = app.globalData.userData
-        const fundData = userData.fundData
-        
-        const { calculateAvailableCash } = require('../../utils/dataStructureUtils.js');
-        const cash = parseFloat(calculateAvailableCash(userData)) || 10000
-        const tradingCount = (fundData.transactions || []).length
-        
-        let fundValue = 0
-        if (fundData.shares > 0) {
-          try {
-            const { indexData } = require('../../data/index_data')
-            const currentData = indexData[userData.currentIndex || 29]
-            if (currentData) {
-              fundValue = fundData.shares * currentData.netValue
-            }
-          } catch (error) {
-            console.error('计算基金市值失败', error)
-          }
-        }
-        
-        const totalAmount = cash + fundValue
-        const totalProfitRate = ((totalAmount - 10000) / 10000) * 100
-        
-        const title = this.generateShareTitle(totalProfitRate, totalAmount, tradingCount)
-        
-        return {
-          title: title,
-          path: `/pages/login/login`,
-          imageUrl: '',
-        }
-      } catch (error) {
-        console.error('分享卡片实时计算失败:', error)
-      }
-    }
-    
-    return {
-      title: '我正在用1万资金挑战基金投资，你敢来试试吗？',
-      path: `/pages/login/login`,
-      imageUrl: '',
     }
   },
 

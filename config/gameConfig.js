@@ -3,7 +3,7 @@
 
 const GAME_CONFIG = {
   // 游戏时间配置
-  TOTAL_TRADING_DAYS: 100,  // 游戏总交易日数 - 只需要修改这一个数字即可改变游戏时长
+  TOTAL_TRADING_DAYS: 5,  // 游戏总交易日数 - 只需要修改这一个数字即可改变游戏时长
   
   // 初始资金配置
   INITIAL_CASH: 10000,    // 初始现金
