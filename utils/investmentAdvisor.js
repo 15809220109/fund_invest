@@ -251,7 +251,7 @@ class InvestmentAdvisor {
     // 从标准数据结构计算当前投资状况
     const currentPosition = {
           availableCash: require('./dataStructureUtils.js').calculateAvailableCash(userData),
-    totalAssets: userData.totalAmount,
+    totalAssets: userData.totalAssets,
       profitRate: userData.totalProfitRate || 0
     };
 

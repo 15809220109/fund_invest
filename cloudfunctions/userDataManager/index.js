@@ -17,8 +17,8 @@ function validateUserDataTypes(data) {
   if (data.initialIndex !== undefined && typeof data.initialIndex !== 'number') {
     errors.push('initialIndex必须是数字类型')
   }
-  if (data.totalAmount !== undefined && typeof data.totalAmount !== 'number') {
-    errors.push('totalAmount必须是数字类型')
+  if (data.totalAssets !== undefined && typeof data.totalAssets !== 'number') {
+    errors.push('totalAssets必须是数字类型')
   }
   if (data.totalProfitRate !== undefined && typeof data.totalProfitRate !== 'number') {
     errors.push('totalProfitRate必须是数字类型')
@@ -34,7 +34,7 @@ function validateUserDataTypes(data) {
 const ALLOWED_UPDATE_FIELDS = [
   'currentIndex',
   'initialIndex', 
-  'totalAmount',
+  'totalAssets',
   'totalProfitRate',
   'fundData',
   'lastLoginTime',
@@ -122,7 +122,7 @@ async function createUser(openid, userData) {
 
   // 验证关键字段（防止前端传入异常数据）
   if (!userData.hasOwnProperty('currentIndex') || 
-      !userData.hasOwnProperty('totalAmount') ||
+      !userData.hasOwnProperty('totalAssets') ||
       !userData.hasOwnProperty('fundData')) {
     return { success: false, error: '缺少必要的用户数据字段' }
   }

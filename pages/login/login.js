@@ -382,11 +382,11 @@ Page({
     if (gameEndData && gameEndData.finalTotalProfitRate !== undefined) {
       // 解析游戏结束数据中的关键指标
       const profitRate = parseFloat(gameEndData.finalTotalProfitRate) || 0  // 总收益率
-      const totalAmount = parseFloat(gameEndData.finalTotalAmount) || 10000 // 总资产
+      const totalAssets = parseFloat(gameEndData.finaltotalAssets) || 10000 // 总资产
       const tradingCount = parseInt(gameEndData.tradingCount) || 0         // 交易次数
       
       // 根据收益率和交易次数生成个性化分享标题
-      const title = this.generateShareTitle(profitRate, totalAmount, tradingCount)
+      const title = this.generateShareTitle(profitRate, totalAssets, tradingCount)
       return {
         title: title,
         path: `/pages/login/login`,  // 分享后跳转到登录页面
@@ -398,19 +398,19 @@ Page({
   /**
    * 生成分享标题的通用方法
    */
-  generateShareTitle: function(profitRate, totalAmount, tradingCount) {
+  generateShareTitle: function(profitRate, totalAssets, tradingCount) {
     if (tradingCount === 0) {
       return `我正在用1万资金挑战基金投资，你敢来试试吗？`
     } else if (profitRate >= 20) {
-      return `哇塞！我的基金狂赚${Math.abs(profitRate).toFixed(1)}%，总资产${totalAmount.toFixed(0)}元！`
+      return `哇塞！我的基金狂赚${Math.abs(profitRate).toFixed(1)}%，总资产${totalAssets.toFixed(0)}元！`
     } else if (profitRate >= 10) {
-      return `太棒了！我的基金收益${Math.abs(profitRate).toFixed(1)}%，总资产${totalAmount.toFixed(0)}元！`
+      return `太棒了！我的基金收益${Math.abs(profitRate).toFixed(1)}%，总资产${totalAssets.toFixed(0)}元！`
     } else if (profitRate >= 5) {
-      return `不错哦！我的基金赚了${Math.abs(profitRate).toFixed(1)}%，总资产${totalAmount.toFixed(0)}元！`
+      return `不错哦！我的基金赚了${Math.abs(profitRate).toFixed(1)}%，总资产${totalAssets.toFixed(0)}元！`
     } else if (profitRate >= 0) {
-      return `稳健投资！我的基金收益${Math.abs(profitRate).toFixed(1)}%，总资产${totalAmount.toFixed(0)}元！`
+      return `稳健投资！我的基金收益${Math.abs(profitRate).toFixed(1)}%，总资产${totalAssets.toFixed(0)}元！`
     } else {
-      return `投资有风险！我体验了基金投资，总资产${totalAmount.toFixed(0)}元`
+      return `投资有风险！我体验了基金投资，总资产${totalAssets.toFixed(0)}元`
     }
   },
 
@@ -551,7 +551,7 @@ Page({
       return null
     }
     
-    const { totalAmount, totalProfit, profitRate, totalProfitRate } = _rawData
+    const { totalAssets, totalProfit, profitRate, totalProfitRate } = _rawData
     
 
     
@@ -574,7 +574,7 @@ Page({
     // 构建游戏数据（直接使用投资页面的本地数据，不进行计算）
     return {
       // 总资产（突出显示）
-      finalTotalAmount: formatNumber(totalAmount, 2),
+      finaltotalAssets: formatNumber(totalAssets, 2),
       // 累计收益率（在总资产旁边小字体显示）
       finalTotalProfitRate: formatNumber(totalProfitRate, 2),
       // 持仓收益（使用实际的持仓收益）

@@ -135,7 +135,7 @@ Page({
       const isCurrentUser = userOpenid === currentUserOpenid;
       
       // 从原始数据中提取核心字段
-      const totalAssets = item.totalAmount || 0;
+      const totalAssets = item.totalAssets || 0;
       const profitRate = item.totalProfitRate || 0;
       
       // 处理用户显示信息 - 前端负责格式化逻辑

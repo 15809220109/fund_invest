@@ -113,7 +113,7 @@
       <view class="result-stats">
         <view class="stat-item main-stat">
           <view class="stat-label">总资产</view>
-          <view class="stat-value">¥{{gameEndData.finalTotalAmount}}</view>
+          <view class="stat-value">¥{{gameEndData.finaltotalAssets}}</view>
           <view class="stat-secondary">累计收益率: {{gameEndData.finalTotalProfitRate >= 0 ? '+' : ''}}{{gameEndData.finalTotalProfitRate}}%</view>
         </view>
         

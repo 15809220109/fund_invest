@@ -72,7 +72,7 @@ function formatDataForDisplay(rawData) {
     // 使用统一精度标准的格式化函数
     cash: formatMoney(rawData.cash),
     fundValue: formatMoney(rawData.fundValue),
-    totalAmount: formatMoney(rawData.totalAmount),
+    totalAssets: formatMoney(rawData.totalAssets),
     dailyProfit: formatMoney(rawData.dailyProfit),
     totalProfit: formatMoney(rawData.holdingProfit), // 修改：使用holdingProfit替代totalProfit
     currentNetValue: formatNetValue(rawData.currentNetValue),
@@ -137,7 +137,7 @@ Page({
    */
   buildGameEndData: function () {
     const { _rawData, tradingHistory, currentIndex } = this.data;
-    const { totalAmount, totalProfit, profitRate, totalProfitRate } = _rawData;
+    const { totalAssets, totalProfit, profitRate, totalProfitRate } = _rawData;
 
     // 计算交易次数
     const tradingCount = tradingHistory ? tradingHistory.length : 0;
@@ -152,7 +152,7 @@ Page({
     // 构建游戏数据
     const gameEndData = {
       // 总资产（突出显示）
-      finalTotalAmount: this.formatNumberValue(totalAmount, 2),
+      finaltotalAssets: this.formatNumberValue(totalAssets, 2),
       // 累计收益率（在总资产旁边小字体显示）
       finalTotalProfitRate: this.formatNumberValue(totalProfitRate, 2),
       // 持仓收益（使用实际的持仓收益，确保与投资页面一致）
@@ -187,7 +187,7 @@ Page({
     let hasChanged = false;
 
     // 检查关键字段是否变化
-    const keyFields = ['cash', 'fundValue', 'totalAmount', 'totalProfit', 'totalProfitRate'];
+    const keyFields = ['cash', 'fundValue', 'totalAssets', 'totalProfit', 'totalProfitRate'];
     for (const field of keyFields) {
       if (currentDisplay[field] !== formatted[field]) {
         hasChanged = true;
@@ -267,7 +267,7 @@ Page({
 
     // 原始数据 - 用于业务逻辑计算（保持高精度）
     _rawData: {
-      totalAmount: GAME_CONFIG.INITIAL_CASH, // Initial total amount
+      totalAssets: GAME_CONFIG.INITIAL_CASH, // Initial total amount
       cash: GAME_CONFIG.INITIAL_CASH,       // Initial cash
       fundValue: 0,       // Initial fund value (0)
       fundUnits: 0,       // Initial fund units (0)
@@ -286,7 +286,7 @@ Page({
     displayData: {
       cash: GAME_CONFIG.INITIAL_CASH.toFixed(2),
       fundValue: '0.00',
-      totalAmount: GAME_CONFIG.INITIAL_CASH.toFixed(2),
+      totalAssets: GAME_CONFIG.INITIAL_CASH.toFixed(2),
       dailyProfit: '0.00',
       totalProfit: '0.00',
       currentNetValue: '0.0000',
@@ -450,7 +450,7 @@ Page({
           currentIndex = GAME_CONFIG.INITIAL_INDEX,
           initialIndex = GAME_CONFIG.INITIAL_INDEX,
           // 4. 资金管理类字段
-          totalAmount = GAME_CONFIG.INITIAL_CASH,
+          totalAssets = GAME_CONFIG.INITIAL_CASH,
           totalProfitRate = 0,
           // 5. 基金投资类字段
           fundData = []
@@ -474,8 +474,8 @@ Page({
         };
 
         // 直接使用云端的总资产和累计收益率
-        if (totalAmount !== undefined && totalProfitRate !== undefined) {
-          dataToSet['_rawData.totalAmount'] = totalAmount;
+        if (totalAssets !== undefined && totalProfitRate !== undefined) {
+          dataToSet['_rawData.totalAssets'] = totalAssets;
           dataToSet['_rawData.totalProfitRate'] = totalProfitRate;
         }
 
@@ -612,7 +612,7 @@ Page({
         '_rawData.cash': finalState.cash,
         '_rawData.fundUnits': finalState.fundUnits,
         '_rawData.fundValue': finalState.fundValue,
-        '_rawData.totalAmount': finalState.totalAmount,
+        '_rawData.totalAssets': finalState.totalAssets,
         '_rawData.totalProfit': finalState.totalProfit,
         '_rawData.profitRate': finalState.profitRate,
         '_rawData.totalProfitRate': finalState.totalProfitRate,
@@ -671,7 +671,7 @@ Page({
       '_rawData.totalProfitRate': finalState.totalProfitRate,
       '_rawData.avgCost': finalState.avgCost,
       '_rawData.fundValue': finalState.fundValue,
-      '_rawData.totalAmount': finalState.totalAmount
+      '_rawData.totalAssets': finalState.totalAssets
     }, () => {
       this.updateDisplayData();
     });
@@ -1251,7 +1251,7 @@ Page({
         shares: 0,
         currentIndex: 0,
         initialIndex: 0,
-        totalAmount: GAME_CONFIG.INITIAL_CASH,
+        totalAssets: GAME_CONFIG.INITIAL_CASH,
         totalProfitRate: 0
       };
 
@@ -1382,7 +1382,7 @@ Page({
         currentIndex: nextIndex,
         '_rawData.currentNetValue': finalState.currentNetValue,
         '_rawData.fundValue': finalState.fundValue,
-        '_rawData.totalAmount': finalState.totalAmount,
+        '_rawData.totalAssets': finalState.totalAssets,
         '_rawData.dailyChange': finalState.dailyChange,
         '_rawData.dailyProfit': finalState.dailyProfit,
         '_rawData.holdingProfit': finalState.holdingProfit,
@@ -1509,7 +1509,7 @@ Page({
       '_rawData.cash': finalState.cash,
       '_rawData.fundUnits': finalState.fundUnits,
       '_rawData.fundValue': finalState.fundValue,
-      '_rawData.totalAmount': finalState.totalAmount,
+      '_rawData.totalAssets': finalState.totalAssets,
       '_rawData.holdingProfit': finalState.holdingProfit, // 新增：更新持仓收益
       '_rawData.realizedProfit': finalState.realizedProfit, // 新增：更新已实现收益
       '_rawData.totalProfit': finalState.totalProfit,
@@ -1623,13 +1623,13 @@ Page({
       userActionTracker.track('买入成功-数据状态', {
         cash: finalState.cash,
         fundUnits: finalState.fundUnits,
-        totalAmount: finalState.totalAmount,
+        totalAssets: finalState.totalAssets,
         transactionCount: finalState.transactions.length
       });
       userActionTracker.track('买入完成', {
         amount: logAmount,
         afterCash: finalState.cash,
-        afterTotalAmount: finalState.totalAmount
+        aftertotalAssets: finalState.totalAssets
       });
     } else {
       const isCleared = finalState.fundUnits === 0;
@@ -1974,7 +1974,7 @@ Page({
 
       const gameEndData = {
         currentIndex: this.data.currentIndex,
-        totalAmount: finalState.totalAmount,
+        totalAssets: finalState.totalAssets,
         cash: finalState.cash,
         fundValue: finalState.fundValue,
         totalProfit: finalState.totalProfit,
@@ -1986,7 +1986,7 @@ Page({
         // 添加完整的用户数据
         finalUserData: {
           currentIndex: this.data.currentIndex,
-          totalAmount: finalState.totalAmount,
+          totalAssets: finalState.totalAssets,
           cash: finalState.cash,
           fundUnits: finalState.fundUnits,
           fundData: {
@@ -1996,7 +1996,7 @@ Page({
         },
 
         // 添加分享卡片显示字段
-        finalTotalAmount: (finalState.totalAmount || 0).toFixed(2),
+        finaltotalAssets: (finalState.totalAssets || 0).toFixed(2),
         finalTotalProfitRate: (finalState.totalProfitRate || 0).toFixed(2),
         currentRoundProfit: (finalState.totalProfit || 0).toFixed(2),
         currentRoundProfitRate: (finalState.profitRate || 0).toFixed(2), // 🔧 修复：使用 profitRate 而不是 totalProfitRate
@@ -2023,7 +2023,7 @@ Page({
       // 更新全局用户数据为最终状态
       if (app.globalData.userData) {
         app.globalData.userData.currentIndex = this.data.currentIndex;
-        app.globalData.userData.totalAmount = finalState.totalAmount;
+        app.globalData.userData.totalAssets = finalState.totalAssets;
         app.globalData.userData.cash = finalState.cash;
         app.globalData.userData.fundUnits = finalState.fundUnits;
         if (app.globalData.userData.fundData) {
@@ -2121,7 +2121,7 @@ Page({
       safeToFixed(state.cash, 4),                // 现金余额
       safeToFixed(state.fundUnits, 4),           // 持仓份额
       safeToFixed(state.fundValue, 4),           // 基金市值
-      safeToFixed(state.totalAmount, 4),         // 总资产
+      safeToFixed(state.totalAssets, 4),         // 总资产
       safeToFixed(state.dailyProfit || 0, 4),    // 当日盈亏
       safeToFixed(state.holdingProfit, 4),       // 持仓收益
       safeToFixed(state.profitRate, 4),          // 持仓收益率
@@ -2164,7 +2164,7 @@ Page({
 
     userActionTracker.track('进入投资页面', {
       currentIndex: this.data.currentIndex,
-      totalAmount: this.data._rawData.totalAmount
+      totalAssets: this.data._rawData.totalAssets
     });
   },
 
@@ -2183,7 +2183,7 @@ Page({
    */
   onShareAppMessage: function () {
     const { _rawData } = this.data;
-    const { totalAmount, totalProfitRate } = _rawData;
+    const { totalAssets, totalProfitRate } = _rawData;
 
     const profit = totalProfitRate >= 0 ? '盈利' : '亏损';
     const profitRate = Math.abs(totalProfitRate).toFixed(2);
@@ -2229,7 +2229,7 @@ Page({
         '_rawData.cash': finalState.cash,
         '_rawData.fundUnits': finalState.fundUnits,
         '_rawData.fundValue': finalState.fundValue,
-        '_rawData.totalAmount': finalState.totalAmount,
+        '_rawData.totalAssets': finalState.totalAssets,
         '_rawData.currentNetValue': finalState.currentNetValue,
         '_rawData.dailyChange': finalState.dailyChange,
         '_rawData.dailyProfit': finalState.dailyProfit,
@@ -2314,7 +2314,7 @@ Page({
 
       // 初始化基础数据 - 存储为原始数字
       this.setData({
-        '_rawData.totalAmount': GAME_CONFIG.INITIAL_CASH,
+        '_rawData.totalAssets': GAME_CONFIG.INITIAL_CASH,
         '_rawData.cash': GAME_CONFIG.INITIAL_CASH,
         '_rawData.fundValue': 0,
         '_rawData.fundUnits': 0,
@@ -2440,7 +2440,7 @@ Page({
       currentIndex: state.currentIndex,
       currentNavData: state.currentNavData,
       yesterdayNavData: state.yesterdayNavData,
-      totalAmount: state.totalAmount,
+      totalAssets: state.totalAssets,
       cash: state.cash,
       fundValue: state.fundValue,
       fundUnits: state.fundUnits,

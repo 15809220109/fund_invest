@@ -59,7 +59,7 @@
       </view>
       <view class="details-row total-assets-row">
         <text class="label">总资产</text>
-        <text class="value">¥{{displayData.totalAmount}}</text>
+        <text class="value">¥{{displayData.totalAssets}}</text>
       </view>
     </view>
   </view>

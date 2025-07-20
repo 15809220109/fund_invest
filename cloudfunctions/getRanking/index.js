@@ -18,7 +18,7 @@ exports.main = async (event, context) => {
     
     // 纯粹的数据查询，按总资产降序排序
     const result = await db.collection('users')
-      .orderBy('totalAmount', 'desc')
+      .orderBy('totalAssets', 'desc')
       .limit(limit)
       .get();
     

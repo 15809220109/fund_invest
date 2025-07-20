@@ -22,7 +22,7 @@ class GameStateManager {
       
       // 计算字段（实时计算）
       fundValue: 0,
-      totalAmount: 10000,
+      totalAssets: 10000,
       totalProfit: 0,
       profitRate: 0,
       totalProfitRate: 0,
@@ -120,7 +120,7 @@ class GameStateManager {
       success: true,
       newCash: this.gameState.cash,
       newFundUnits: this.gameState.fundUnits,
-      totalAmount: this.gameState.totalAmount,
+      totalAssets: this.gameState.totalAssets,
       transaction: transaction
     };
     
@@ -152,7 +152,7 @@ class GameStateManager {
       success: true,
       newCash: this.gameState.cash,
       newFundUnits: this.gameState.fundUnits,
-      totalAmount: this.gameState.totalAmount,
+      totalAssets: this.gameState.totalAssets,
       realizedGain: realizedGain,
       transaction: transaction
     };
@@ -252,7 +252,7 @@ class GameStateManager {
     return {
       success: true,
       currentIndex: this.gameState.currentIndex,
-      totalAmount: this.gameState.totalAmount,
+      totalAssets: this.gameState.totalAssets,
       dailyChange: this.calculateDailyChange()
     };
   }
@@ -282,7 +282,7 @@ class GameStateManager {
     this.gameState.fundValue = fundUtils.calculateHoldingValue(this.gameState.fundUnits, currentNetValue);
     
     // 2. 【方案1】强制同步：总资产必须等于现金 + 基金市值
-    this.gameState.totalAmount = this.gameState.cash + this.gameState.fundValue;
+    this.gameState.totalAssets = this.gameState.cash + this.gameState.fundValue;
 
     // 3. 重新计算收益指标
     this.calculateProfitMetrics();
@@ -310,8 +310,8 @@ class GameStateManager {
       this.gameState.holdingProfit = 0;
       this.gameState.realizedProfit = 0;
       this.gameState.profitRate = 0;
-      // 【修复】没有交易时使用简单的 totalAmount - initialCash 计算累计收益率
-      this.gameState.totalProfitRate = fundUtils.calculateTotalProfitRate(this.gameState.totalAmount, initialCash);
+      // 【修复】没有交易时使用简单的 totalAssets - initialCash 计算累计收益率
+      this.gameState.totalProfitRate = fundUtils.calculateTotalProfitRate(this.gameState.totalAssets, initialCash);
       this.gameState.avgCost = 0;
       return;
     }
@@ -362,7 +362,7 @@ class GameStateManager {
       );
     } else {
       // 没有交易或交易金额为0时，使用简单的总资产差额计算
-      this.gameState.totalProfitRate = fundUtils.calculateTotalProfitRate(this.gameState.totalAmount, initialCash);
+      this.gameState.totalProfitRate = fundUtils.calculateTotalProfitRate(this.gameState.totalAssets, initialCash);
     }
 
     // 更新各种收益数据

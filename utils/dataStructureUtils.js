@@ -25,7 +25,7 @@ const STANDARD_USER_SCHEMA = {
   initialIndex: 0, // 游戏开始索引
   
   // 4. 资金管理类字段
-  totalAmount: 0, // 总资产（现金+基金市值）
+  totalAssets: 0, // 总资产（现金+基金市值）
   totalProfitRate: 0, // 累计收益率
   
   // 5. 基金投资类字段
@@ -61,14 +61,14 @@ const STANDARD_USER_SCHEMA = {
  */
 function calculateAvailableCash(userData, indexData = null) {
   if (!userData || !userData.fundData || userData.fundData.length === 0) {
-    return userData?.totalAmount || 10000;
+    return userData?.totalAssets || 10000;
   }
   
   const fundInfo = userData.fundData[0];
   
   // 如果没有净值数据，无法准确计算
   if (!indexData || !userData.currentIndex) {
-    return userData.totalAmount || 10000;
+    return userData.totalAssets || 10000;
   }
   
   // 获取当前净值
@@ -78,7 +78,7 @@ function calculateAvailableCash(userData, indexData = null) {
   const fundValue = fundInfo.shares * currentNetValue;
   
   // 现金 = 总资产 - 基金市值
-  const result = (userData.totalAmount || 10000) - fundValue;
+  const result = (userData.totalAssets || 10000) - fundValue;
   
   return result;
 }
@@ -103,7 +103,7 @@ function extractCalculationData(userData, indexData = null) {
     calculatedCash = calculateAvailableCash(userData, indexData);
   } else {
     // 没有净值数据时，暂时使用一个占位值，让GameStateManager.recalculateAll()来正确计算
-    calculatedCash = userData.totalAmount || 10000; // 这个值会被recalculateAll覆盖
+    calculatedCash = userData.totalAssets || 10000; // 这个值会被recalculateAll覆盖
   }
   
   // 【修改】优先使用持久化的 cash 字段，只有在不存在时才使用反推值
@@ -117,7 +117,7 @@ function extractCalculationData(userData, indexData = null) {
     
     // 资金信息（优先使用直接字段，否则动态计算）
     cash: finalCash,
-    totalAmount: userData.totalAmount,
+    totalAssets: userData.totalAssets,
     totalProfitRate: userData.totalProfitRate,
     
     // 基金信息（优先使用直接字段）
@@ -138,8 +138,8 @@ function updateStandardUserData(userData, updateData) {
   const updated = { ...userData };
   
   // 更新资金管理类字段
-  if (updateData.totalAmount !== undefined) {
-    updated.totalAmount = updateData.totalAmount;
+  if (updateData.totalAssets !== undefined) {
+    updated.totalAssets = updateData.totalAssets;
   }
   if (updateData.totalProfitRate !== undefined) {
     updated.totalProfitRate = updateData.totalProfitRate;
@@ -190,7 +190,7 @@ function validateStandardFormat(userData) {
   const requiredFields = [
     '_openid', 'createTime', 'lastLoginTime',
     'currentIndex', 'initialIndex',
-    'totalAmount', 'totalProfitRate',
+    'totalAssets', 'totalProfitRate',
     'fundData', 'profile'
   ];
   
@@ -234,7 +234,7 @@ function createInitialGameState() {
     initialIndex: GAME_CONFIG.INITIAL_INDEX,
     
     // 4. 资金管理类字段
-    totalAmount: GAME_CONFIG.INITIAL_CASH,
+    totalAssets: GAME_CONFIG.INITIAL_CASH,
     totalProfitRate: 0,
     cash: GAME_CONFIG.INITIAL_CASH,
     

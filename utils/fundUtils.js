@@ -440,15 +440,15 @@ function calculateTransactionSummary(tradingHistory) {
 
 /**
  * 计算累计收益率
- * @param {number} totalAmount - 当前总资产
+ * @param {number} totalAssets - 当前总资产
  * @param {number} initialCash - 初始资金
  * @returns {number} 累计收益率百分比
  */
-function calculateTotalProfitRate(totalAmount, initialCash) {
+function calculateTotalProfitRate(totalAssets, initialCash) {
   if (initialCash === 0) {
     return 0;
   }
-  const difference = safeSubtract(totalAmount, initialCash);
+  const difference = safeSubtract(totalAssets, initialCash);
   const rate = safeDivide(difference, initialCash);
   return safeMultiply(rate, 100);
 }
